@@ -45,7 +45,7 @@ export default function AppContextProvider({ children }) {
 
       setTasks(data.tasks);
     } catch (error) {
-     console.log(error.message)
+      console.log(error.message);
     }
   };
 
@@ -64,7 +64,7 @@ export default function AppContextProvider({ children }) {
 
       setUserData(data.user);
     } catch (error) {
-       console.log(error.message)
+      console.log(error.message);
     }
   };
 

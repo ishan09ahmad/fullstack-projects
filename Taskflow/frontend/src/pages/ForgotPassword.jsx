@@ -1,9 +1,13 @@
 import { Link, useNavigate } from "react-router";
-import { Check, Mail, ArrowLeft } from "lucide-react";
+import {  Mail, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import Spinner from "../components/Spinner";
 
 export default function ForgotPassword() {
+  const {appLoading}=useContext(AppContext)
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -73,6 +77,7 @@ export default function ForgotPassword() {
     }
   };
 
+  if(appLoading) return <Spinner/>
   return (
     <div className="min-h-[calc(100vh-70px)] bg-gray-50 px-6 py-12 flex items-center justify-center">
       <div className="mx-auto w-full max-w-md ">

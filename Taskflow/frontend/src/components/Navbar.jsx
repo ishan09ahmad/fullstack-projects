@@ -14,7 +14,8 @@ import { toast } from "react-toastify";
 
 export default function Navbar() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const { isLoggedIn, setIsLoggedIn, setTasks, } = useContext(AppContext);
+  const { isLoggedIn, setIsLoggedIn, setTasks, appLoading } =
+    useContext(AppContext);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -78,10 +79,10 @@ export default function Navbar() {
             className={({ isActive }) =>
               `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
                 isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-              }`
+              } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"} `
             }
           >
-            Features
+            {appLoading ? "" : "Features"}
           </NavLink>
 
           {/* Logged Out */}
@@ -92,22 +93,21 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
                     isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-                  }`
+                  } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"}`
                 }
               >
-                Login
+                {appLoading ? "" : "Login"}
               </NavLink>
 
               <Link
                 to="/register"
-                className="rounded-full bg-[#111c2d] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md"
+                className={`rounded-full bg-[#111c2d] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md  ${appLoading && "w-30 h-8 "}`}
               >
-                Get Started
+                {appLoading ? "" : "Get Started"}
               </Link>
             </>
           )}
 
-          {/* Logged In */}
           {isLoggedIn && (
             <>
               <NavLink
@@ -115,10 +115,10 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
                     isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-                  }`
+                  } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"}`
                 }
               >
-                Dashboard
+                {appLoading ? "" : "Dashboard"}  
               </NavLink>
 
               <NavLink
@@ -126,10 +126,10 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
                     isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-                  }`
+                  } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"}`
                 }
               >
-                Add Task
+               {appLoading ? "" : "Add Task"}   
               </NavLink>
               <div className="relative">
                 <button
@@ -193,71 +193,103 @@ export default function Navbar() {
       </div>
 
       {/* ================= MOBILE NAV ================= */}
-      {isMobileMenuOpen && (
-        <div className="border-t border-b shadow-md border-gray-100 bg-white px-6 py-4 absolute left-0 right-0 md:hidden z-50 ">
-          <div className="flex flex-col gap-1">
-            <NavLink
-              to="/features"
-              onClick={closeMobileMenu}
-              className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
-            >
-              Features
-            </NavLink>
+    {isMobileMenuOpen && (
+  <div className="border-t border-b shadow-md border-gray-100 bg-white px-6 py-4 absolute left-0 right-0 md:hidden z-50">
+    <div className="flex flex-col gap-1">
+      <NavLink
+        to="/features"
+        onClick={closeMobileMenu}
+        className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
+          appLoading
+            ? "h-10 bg-gray-100"
+            : "hover:bg-violet-50 hover:text-violet-600"
+        }`}
+      >
+        {appLoading ? "" : "Features"}
+      </NavLink>
 
-            {!isLoggedIn && (
-              <>
-                <NavLink
-                  to="/login"
-                  onClick={closeMobileMenu}
-                  className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
-                >
-                  Login
-                </NavLink>
+      {!isLoggedIn && (
+        <>
+          <NavLink
+            to="/login"
+            onClick={closeMobileMenu}
+            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
+              appLoading
+                ? "h-10 bg-gray-100"
+                : "hover:bg-violet-50 hover:text-violet-600"
+            }`}
+          >
+            {appLoading ? "" : "Login"}
+          </NavLink>
 
-                <Link
-                  to="/register"
-                  onClick={closeMobileMenu}
-                  className="mt-2 rounded-full bg-[#111c2d] px-5 py-3 text-center text-sm font-semibold text-white transition-all hover:bg-[#1b293d]"
-                >
-                  Get Started
-                </Link>
-              </>
-            )}
-
-            {isLoggedIn && (
-              <>
-                <NavLink
-                  to="dashboard"
-                  className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
-                >
-                  Dashboard
-                </NavLink>
-
-                <NavLink
-                  to="add-task"
-                  className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
-                >
-                  Add Task
-                </NavLink>
-
-                <NavLink
-                  to="/verify-email"
-                  className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
-                >
-                  Verify Email
-                </NavLink>
-
-                <button
-                  onClick={handleLogout}
-                  className="mt-2 rounded-full bg-[#111c2d] px-5 py-3 text-center text-sm font-semibold text-white transition-all hover:bg-[#1b293d]"
-                >
-                  Logout
-                </button>
-              </>
-            )}
-          </div>
-        </div>
+          <Link
+            to="/register"
+            onClick={closeMobileMenu}
+            className={`mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-all ${
+              appLoading
+                ? "h-10 bg-gray-100"
+                : "bg-[#111c2d] hover:bg-[#1b293d]"
+            }`}
+          >
+            {appLoading ? "" : "Get Started"}
+          </Link>
+        </>
       )}
+
+      {isLoggedIn && (
+        <>
+          <NavLink
+            to="dashboard"
+            onClick={closeMobileMenu}
+            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
+              appLoading
+                ? "h-11 bg-gray-100"
+                : "hover:bg-violet-50 hover:text-violet-600"
+            }`}
+          >
+            {appLoading ? "" : "Dashboard"}
+          </NavLink>
+
+          <NavLink
+            to="add-task"
+            onClick={closeMobileMenu}
+            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
+              appLoading
+                ? "h-11 bg-gray-100"
+                : "hover:bg-violet-50 hover:text-violet-600"
+            }`}
+          >
+            {appLoading ? "" : "Add Task"}
+          </NavLink>
+
+          <NavLink
+            to="/verify-email"
+            onClick={closeMobileMenu}
+            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
+              appLoading
+                ? "h-11 bg-gray-100"
+                : "hover:bg-violet-50 hover:text-violet-600"
+            }`}
+          >
+            {appLoading ? "" : "Verify Email"}
+          </NavLink>
+
+          <button
+            onClick={handleLogout}
+            disabled={appLoading}
+            className={`mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-all ${
+              appLoading
+                ? "h-11 bg-gray-100"
+                : "cursor-pointer bg-[#111c2d] hover:bg-[#1b293d]"
+            }`}
+          >
+            {appLoading ? "" : "Logout"}
+          </button>
+        </>
+      )}
+    </div>
+  </div>
+)}
     </nav>
   );
 }
