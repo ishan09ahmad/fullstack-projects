@@ -139,7 +139,7 @@ export default function Register() {
           </div>
 
           <form
-            className={`mt-7 ${formError.name ? "space-y-2" : "space-y-7"}`}
+            className={`mt-7 ${(formError.name ||formError.email || formError.password )? " space-y-2" : " space-y-7"}`}
             onSubmit={handleSubmit}
           >
             <div>

@@ -130,7 +130,7 @@ export default function Login() {
           </div>
 
           <form
-            className={`mt-7 ${formError.email || formError.password ? " space-y-2" : " space-y-7"}`}
+            className={`mt-7 ${formError.email || formError.password ? "space-y-4" : "space-y-7"}`}
             onSubmit={handleSubmit}
           >
             <div>
@@ -211,7 +211,7 @@ export default function Login() {
                   }`}
                 />
 
-         <button
+                <button
                   className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600"
                   type="button"
                   onClick={handlePasswordToggle}
