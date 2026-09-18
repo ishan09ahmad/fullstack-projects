@@ -19,6 +19,7 @@ export default function AppContextProvider({ children }) {
         setAppLoading,
         tasks,
         setTasks,
+        user
       }}
     >
       {children}
