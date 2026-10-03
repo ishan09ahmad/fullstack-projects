@@ -57,7 +57,6 @@ export default function Navbar() {
   return (
     <nav className="w-full border-b border-gray-100 bg-white shadow-xl relative">
       <div className="mx-auto flex items-center justify-between h-17 max-w-350  gap-4 px-6">
-        {/* Logo */}
         <Link
           to="/"
           onClick={closeMobileMenu}
@@ -72,116 +71,128 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* ================= DESKTOP NAV ================= */}
-        <div className="hidden items-center gap-10 md:flex">
-          <NavLink
-            to="/features"
-            className={({ isActive }) =>
-              `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
-                isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-              } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"} `
-            }
-          >
-            {appLoading ? "" : "Features"}
-          </NavLink>
+        {appLoading ? (
+          <div className="hidden md:flex items-center gap-4">
+            {Array(4)
+              .fill("")
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="w-25 h-8 bg-gray-100 rounded-full"
+                ></div>
+              ))}
+          </div>
+        ) : (
+          <div className="hidden md:flex items-center gap-10 ">
+            <NavLink
+              to="/features"
+              className={({ isActive }) =>
+                `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
+                  isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
+                } `
+              }
+            >
+              Features
+            </NavLink>
 
-          {/* Logged Out */}
-          {!isLoggedIn && (
-            <>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
-                    isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-                  } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"}`
-                }
-              >
-                {appLoading ? "" : "Login"}
-              </NavLink>
-
-              <Link
-                to="/register"
-                className={`rounded-full bg-[#111c2d] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md  ${appLoading && "w-30 h-8 "}`}
-              >
-                {appLoading ? "" : "Get Started"}
-              </Link>
-            </>
-          )}
-
-          {isLoggedIn && (
-            <>
-              <NavLink
-                to="dashboard"
-                className={({ isActive }) =>
-                  `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
-                    isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-                  } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"}`
-                }
-              >
-                {appLoading ? "" : "Dashboard"}  
-              </NavLink>
-
-              <NavLink
-                to="/add-task"
-                className={({ isActive }) =>
-                  `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
-                    isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
-                  } ${appLoading && "w-25 h-6  rounded-full p-4 bg-gray-100"}`
-                }
-              >
-               {appLoading ? "" : "Add Task"}   
-              </NavLink>
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition hover:bg-gray-100"
+            {/* Logged Out */}
+            {!isLoggedIn && (
+              <>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
+                      isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
+                    }`
+                  }
                 >
-                  {/* Avatar */}
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 text-[12px] font-semibold text-gray-600">
-                    <User />
-                  </div>
-                  <ChevronDown
-                    size={15}
-                    className={`text-gray-500 transition-transform ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
+                  Login
+                </NavLink>
 
-                {/* Dropdown */}
-                {isOpen && (
-                  <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-gray-100 bg-white p-1.5 shadow-xl">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsOpen(false);
-                        navigate("/verify-email");
-                      }}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-violet-50 hover:text-violet-600 cursor-pointer"
-                    >
-                      <MailCheck size={17} />
-                      Verify Email
-                    </button>
+                <Link
+                  to="/register"
+                  className={`rounded-full bg-[#111c2d] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md  `}
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
 
-                    <div className="my-1 h-px bg-gray-100" />
+            {isLoggedIn && (
+              <>
+                <NavLink
+                  to="dashboard"
+                  className={({ isActive }) =>
+                    `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
+                      isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
+                    } `
+                  }
+                >
+                  Dashboard
+                </NavLink>
 
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 cursor-pointer"
-                    >
-                      <LogOut size={17} />
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        </div>
+                <NavLink
+                  to="/add-task"
+                  className={({ isActive }) =>
+                    `text-[15px] font-semibold text-gray-700 transition-colors hover:text-violet-600 ${
+                      isActive ? "border-b-2 border-b-violet-400 pb-1" : ""
+                    } `
+                  }
+                >
+                  Add Task
+                </NavLink>
 
-        {/* ================= MOBILE BUTTON ================= */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 transition hover:bg-gray-100"
+                  >
+                    {/* Avatar */}
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 text-[12px] font-semibold text-gray-600">
+                      <User />
+                    </div>
+                    <ChevronDown
+                      size={15}
+                      className={`text-gray-500 transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* Dropdown */}
+                  {isOpen && (
+                    <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-gray-100 bg-white p-1.5 shadow-xl">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsOpen(false);
+                          navigate("/verify-email");
+                        }}
+                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-violet-50 hover:text-violet-600 cursor-pointer"
+                      >
+                        <MailCheck size={17} />
+                        Verify Email
+                      </button>
+
+                      <div className="my-1 h-px bg-gray-100" />
+
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-red-50 hover:text-red-600 cursor-pointer"
+                      >
+                        <LogOut size={17} />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -192,104 +203,88 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* ================= MOBILE NAV ================= */}
-    {isMobileMenuOpen && (
-  <div className="border-t border-b shadow-md border-gray-100 bg-white px-6 py-4 absolute left-0 right-0 md:hidden z-50">
-    <div className="flex flex-col gap-1">
-      <NavLink
-        to="/features"
-        onClick={closeMobileMenu}
-        className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
-          appLoading
-            ? "h-10 bg-gray-100"
-            : "hover:bg-violet-50 hover:text-violet-600"
-        }`}
-      >
-        {appLoading ? "" : "Features"}
-      </NavLink>
+      {isMobileMenuOpen && (
+        <div className="border-t border-b shadow-md border-gray-100 bg-white px-6 py-4 absolute left-0 right-0 md:hidden z-50">
+          {appLoading ? (
+            <div className="space-y-2">
+              {Array(5)
+                .fill("")
+                .map((_, index) => (
+                  <div key={index} className="w-full h-10 bg-gray-100 rounded-full "></div>
+                ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <NavLink
+                to="/features"
+                onClick={closeMobileMenu}
+                className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
+              >
+                Features
+              </NavLink>
 
-      {!isLoggedIn && (
-        <>
-          <NavLink
-            to="/login"
-            onClick={closeMobileMenu}
-            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
-              appLoading
-                ? "h-10 bg-gray-100"
-                : "hover:bg-violet-50 hover:text-violet-600"
-            }`}
-          >
-            {appLoading ? "" : "Login"}
-          </NavLink>
+              {!isLoggedIn && (
+                <>
+                  <NavLink
+                    to="/login"
+                    onClick={closeMobileMenu}
+                    className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition
+                        hover:bg-violet-50 hover:text-violet-600"
+                  >
+                Login
+                  </NavLink>
 
-          <Link
-            to="/register"
-            onClick={closeMobileMenu}
-            className={`mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-all ${
-              appLoading
-                ? "h-10 bg-gray-100"
-                : "bg-[#111c2d] hover:bg-[#1b293d]"
-            }`}
-          >
-            {appLoading ? "" : "Get Started"}
-          </Link>
-        </>
+                  <Link
+                    to="/register"
+                    onClick={closeMobileMenu}
+                    className="mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-all 
+                        bg-[#111c2d] hover:bg-[#1b293d]"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
+
+              {isLoggedIn && (
+                <>
+                  <NavLink
+                    to="dashboard"
+                    onClick={closeMobileMenu}
+                    className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
+                  >
+                   Dashboard
+                  </NavLink>
+
+                  <NavLink
+                    to="add-task"
+                    onClick={closeMobileMenu}
+                    className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition hover:bg-violet-50 hover:text-violet-600"
+                  >
+                 Add Task
+                  </NavLink>
+
+                  <NavLink
+                    to="/verify-email"
+                    onClick={closeMobileMenu}
+                    className="rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition  hover:bg-violet-50 hover:text-violet-600"
+                   
+                  >
+                Verify Email
+                  </NavLink>
+
+                  <button
+                    onClick={handleLogout}
+                    disabled={appLoading}
+                    className="mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-all cursor-pointer bg-[#111c2d] hover:bg-[#1b293d]"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       )}
-
-      {isLoggedIn && (
-        <>
-          <NavLink
-            to="dashboard"
-            onClick={closeMobileMenu}
-            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
-              appLoading
-                ? "h-11 bg-gray-100"
-                : "hover:bg-violet-50 hover:text-violet-600"
-            }`}
-          >
-            {appLoading ? "" : "Dashboard"}
-          </NavLink>
-
-          <NavLink
-            to="add-task"
-            onClick={closeMobileMenu}
-            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
-              appLoading
-                ? "h-11 bg-gray-100"
-                : "hover:bg-violet-50 hover:text-violet-600"
-            }`}
-          >
-            {appLoading ? "" : "Add Task"}
-          </NavLink>
-
-          <NavLink
-            to="/verify-email"
-            onClick={closeMobileMenu}
-            className={`rounded-lg px-3 py-3 text-[15px] font-semibold text-gray-700 transition ${
-              appLoading
-                ? "h-11 bg-gray-100"
-                : "hover:bg-violet-50 hover:text-violet-600"
-            }`}
-          >
-            {appLoading ? "" : "Verify Email"}
-          </NavLink>
-
-          <button
-            onClick={handleLogout}
-            disabled={appLoading}
-            className={`mt-2 rounded-full px-5 py-3 text-center text-sm font-semibold text-white transition-all ${
-              appLoading
-                ? "h-11 bg-gray-100"
-                : "cursor-pointer bg-[#111c2d] hover:bg-[#1b293d]"
-            }`}
-          >
-            {appLoading ? "" : "Logout"}
-          </button>
-        </>
-      )}
-    </div>
-  </div>
-)}
     </nav>
   );
 }
