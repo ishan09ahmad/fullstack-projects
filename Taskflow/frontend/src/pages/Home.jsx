@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <div className="min-h-[calc(100vh-70px)] bg-white">
-      <section className="relative overflow-hidden px-6 pb-20 pt-20 sm:pb-28 sm:pt-28">
+      <section className="relative overflow-hidden min-h-[calc(100vh-70px)] px-6 pb-20 pt-20 sm:pb-28 sm:pt-28">
         <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-125 w-175 -translate-x-1/2 rounded-full bg-violet-100/50 blur-3xl" />
 
         <div className="mx-auto max-w-4xl text-center">
@@ -28,43 +28,46 @@ export default function Home() {
             Simple task management
           </div>
 
-          {/* Heading */}
           <h1 className="mt-7 text-4xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
             Get things done.
             <span className="block text-violet-600">Stay organized.</span>
           </h1>
 
-          {/* Description */}
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-gray-500 sm:text-base">
             TaskFlow helps you organize your tasks, focus on what matters, and
             stay productive without unnecessary complexity.
           </p>
 
-          {/* Buttons */}
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            {isLoggedIn ? (
-              <Link
-                to="/dashboard"
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#111c2d] px-7 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md sm:w-auto"
-              >
-                Go to Dashboard
-                <ArrowRight size={17} />
-              </Link>
+            {appLoading ? (
+              ""
             ) : (
               <>
-                <Link
-                  to="/login"
-                  className="flex w-50 h-11 items-center justify-center rounded-full bg-[#111c2d] px-7 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md "
-                >
-                  {appLoading ? " " : "Login"}
-                </Link>
+                {isLoggedIn ? (
+                  <Link
+                    to="/dashboard"
+                    className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[#111c2d] px-7 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md sm:w-auto"
+                  >
+                    Go to Dashboard
+                    <ArrowRight size={17} />
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="flex w-50 h-11 items-center justify-center rounded-full bg-[#111c2d] px-7 text-sm font-semibold text-white transition-all hover:bg-[#1b293d] hover:shadow-md "
+                    >
+                      Login
+                    </Link>
 
-                <Link
-                  to="/register"
-                  className="flex w-50 h-11 items-center justify-center rounded-full border border-gray-200 bg-white px-7 text-sm font-semibold text-gray-700 transition-all hover:border-violet-200 hover:text-violet-600"
-                >
-                  {appLoading ? " " : "Create Account"}
-                </Link>
+                    <Link
+                      to="/register"
+                      className="flex w-50 h-11 items-center justify-center rounded-full border border-gray-200 bg-white px-7 text-sm font-semibold text-gray-700 transition-all hover:border-violet-200 hover:text-violet-600"
+                    >
+                      Create Account
+                    </Link>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -258,7 +261,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= CTA ================= */}
       <section className="bg-[#111c2d] px-6 py-16 sm:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
@@ -270,23 +272,17 @@ export default function Home() {
           </p>
 
           <div className="mt-7">
-            {isLoggedIn ? (
-              <Link
-                to="/dashboard"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#111c2d] transition hover:bg-gray-100"
-              >
-                Go to Dashboard
-                <ArrowRight size={16} />
-              </Link>
-            ) : (
-              <Link
-                to="/register"
-                className={`inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#111c2d] transition hover:bg-gray-100  ${appLoading && "w-50 h-12"}`}
-              >
-                {appLoading ? "" : " Get Started"}
-                <ArrowRight size={16} />
-              </Link>
-            )}
+            <Link
+              to={isLoggedIn ? "/dashboard" : "/register"}
+              className="flex items-center justify-center mx-auto gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#111c2d] transition hover:bg-gray-100 w-50 h-12"
+            >
+              {appLoading
+                ? ""
+                : isLoggedIn
+                  ? "Go to Dashboard"
+                  : "  Get Started  "}
+              {appLoading ? "" : <ArrowRight size={16} />}
+            </Link>
           </div>
         </div>
       </section>
